@@ -22,9 +22,16 @@ struct TimerStat
 {
     int first;
     int second;
+
 }timeStat;
 
-
+struct Stat
+{
+    int res00 = 0;
+    int res01 = 0;
+    int res10 = 0;
+    int res11 = 0; 
+}all_stat;
 
 void setPrint(int sign)
 {
@@ -39,9 +46,24 @@ void setClose(int sign)
 void setAlarm (int sign)
 {     
     EndAlarm = true;
-    if(timeStat.first != timeStat.second)
-        result++;
-
+    if(timeStat.first == timeStat.second)
+    {
+        if(timeStat.first == 1){
+            all_stat.res11++;
+        }
+        else{
+            all_stat.res00++;
+        }
+    }
+    else{
+        if(timeStat.first ==0){
+            all_stat.res01++;
+        }
+        else{
+            all_stat.res10++;
+        }
+    }
+    
 }
 
 void initSignalHandlers()
@@ -56,12 +78,6 @@ void initSignalHandlers()
     sigaction(SIGALRM, &alarmSignal, NULL);
 }
 
-
-
-
-
-
-
 int main(int argc, char* argv[])
 {
 
@@ -69,16 +85,12 @@ int main(int argc, char* argv[])
     initSignalHandlers();
 
     char buf[256];
-    
-    
-
-
-    int count = 10;
+    int count = 100;
     while (count --)
     {
         bool fl;
         EndAlarm = false;
-        alarm(1);
+        ualarm(10000, 0);
         while(!EndAlarm)
         {
             timeStat.first = fl ? 1:0;
@@ -87,7 +99,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    sprintf(buf, " Child%d Stat: %d", atoi(argv[0]), result);
+    sprintf(buf, " Child%d 00: %d 01:%d, 10:%d, 11:%d", atoi(argv[0]), all_stat.res00, all_stat.res01, all_stat.res10, all_stat.res11);
 
     while (true)
     {

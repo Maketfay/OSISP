@@ -1,4 +1,4 @@
-#define MAX_AMOUNT_OP_PROCESSES 5
+#define MAX_AMOUNT_OF_PROCESSES 5
 
 #include <unistd.h>
 #include <signal.h>
@@ -33,7 +33,6 @@ int myGetch()
     return ch;
 }
 
-
 void setPrint(int sig)
 {
     if (procInfo.size())
@@ -50,7 +49,7 @@ void setPrint(int sig)
                 i = 0;
             }
             j++;
-            if(j == MAX_AMOUNT_OP_PROCESSES){
+            if(j == MAX_AMOUNT_OF_PROCESSES){
                 Print = false;
                 break;}
         }
@@ -131,11 +130,11 @@ int main()
 
     while (true)
     {
-        switch(myGetch())
+        switch(getchar())
         {
             case '+':
             {
-                if(procInfo.size() < MAX_AMOUNT_OP_PROCESSES)
+                if(procInfo.size() < MAX_AMOUNT_OF_PROCESSES)
                 {
                     addOneProcess();
                     if (Print == true)
@@ -179,7 +178,7 @@ int main()
             case 's':
             {
                 printf("\n\n\nParametr (1, 2, 3, 4, 5) \n");
-                switch(myGetch())
+                switch(getchar())
                 {
                     case '1':{printAvailable[0]=false; break;}
                     case '2':{printAvailable[1]=false; break;}
@@ -187,7 +186,7 @@ int main()
                     case '4':{printAvailable[3]=false; break;}
                     case '5':{printAvailable[4]=false; break;}
                     default: {Print = false;
-                    for (int j = 0; j<MAX_AMOUNT_OP_PROCESSES; j++)
+                    for (int j = 0; j<MAX_AMOUNT_OF_PROCESSES; j++)
                         {
                             printAvailable[j]=false;
                         }  
@@ -209,7 +208,7 @@ int main()
                     case '5':{printAvailable[4]=true; break;}
                     default: { 
                         
-                        for (int j = 0; j<MAX_AMOUNT_OP_PROCESSES; j++)
+                        for (int j = 0; j<MAX_AMOUNT_OF_PROCESSES; j++)
                         {
                             printAvailable[j]=true;
                         }    
@@ -221,7 +220,7 @@ int main()
             }
             case 'p':
             {
-                for (int j = 0; j<MAX_AMOUNT_OP_PROCESSES; j++)
+                for (int j = 0; j<MAX_AMOUNT_OF_PROCESSES; j++)
                 {
                     printAvailable[j]=false;
                 }  
@@ -236,7 +235,7 @@ int main()
                 raise(SIGUSR1);
                 napms(4000);
                  Print = true;
-                  for (int j = 0; j<MAX_AMOUNT_OP_PROCESSES; j++)
+                  for (int j = 0; j<MAX_AMOUNT_OF_PROCESSES; j++)
                         {
                             printAvailable[j]=true;
                         }  
